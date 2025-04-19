@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Queue Process Visualization</title>
+    <style>
+        body {
+            background-color: #111;
+            font-family: Arial, sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .queue-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px dashed red;
+            border-radius: 10px;
+            min-height: 80px;
+            width: 80%;
+            overflow-x: auto;
+        }
+
+        .box {
+            width: 60px;
+            height: 60px;
+            background-color: #400000;
+            color: white;
+            font-weight: bold;
+            border: 2px solid red;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: crimson;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkred;
+        }
+
+    </style>
+</head>
+<body>
+
+<h2>Queue Visualization</h2>
+<div class="queue-container" id="queue"></div>
+
+<div class="controls">
+    <button onclick="startQueue()">Work Start</button>
+    <button onclick="stopQueue()">Work Stop</button>
+</div>
+
+<script>
+    const queueContainer = document.getElementById('queue');
+    let interval = null;
+    let count = 1;
+
+    function enqueue() {
+        const box = document.createElement('div');
+        box.className = 'box';
+        box.textContent = count++;
+        queueContainer.appendChild(box);
+
+        setTimeout(() => {
+            box.classList.add('fade-out');
+            setTimeout(() => {
+                queueContainer.removeChild(box);
+            }, 500);
+        }, 1500);
+    }
+
+    function startQueue() {
+        if (!interval) {
+            interval = setInterval(enqueue, 1000);
+        }
+    }
+
+    function stopQueue() {
+        clearInterval(interval);
+        interval = null;
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Knight Rider Light</title>
+    <style>
+        body {
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .light {
+            width: 150px;
+            height: 50px;
+            background-color: #400000;
+            border-radius: 8%;
+            box-shadow: 0 0 10px #200000;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .light.active {
+            background-color: red;
+            box-shadow: 0 0 20px red, 0 0 40px red;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: maroon;
+            border: none;
+            color: #fcfcfc;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="lightBar">
+</div>
+<button id="toggleBtn">Light Start</button>
+
+<script>
+    const lightCount = 9;
+    const lightBar = document.getElementById('lightBar');
+    const toggleBtn = document.getElementById('toggleBtn');
+
+    for (let i = 0; i < lightCount; i++) {
+        const light = document.createElement('div');
+        light.classList.add('light');
+        lightBar.appendChild(light);
+    }
+
+    const lights = document.querySelectorAll('.light');
+    let current = 0;
+    let direction = 1;
+    let interval = null;
+
+    function animateLights() {
+        lights.forEach(light => light.classList.remove('active'));
+        lights[current].classList.add('active');
+        current += direction;
+        if (current === lights.length - 1 || current === 0) {
+            direction *= -1;
+        }
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        if (interval) {
+            clearInterval(interval);
+            interval = null;
+            toggleBtn.textContent = "Light Start";
+            lights.forEach(light => light.classList.remove('active'));
+        } else {
+            interval = setInterval(animateLights, 100);
+            toggleBtn.textContent = "Light Stop";
+        }
+    });
+</script>
+
+</body>
+</html>
